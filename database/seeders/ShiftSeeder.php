@@ -1,0 +1,23 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Shift;
+use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+class ShiftSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $shifts = ['Shift 1', 'Shift 2', 'Shift 3', 'Non-Shift'];
+
+        foreach ($shifts as $shift) {
+            Shift::create(['name' => $shift]);
+        }
+    }
+}
