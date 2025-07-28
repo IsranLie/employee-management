@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shift;
 use App\Models\Employee;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -11,10 +13,12 @@ class EmployeeController extends Controller
     {
         $title = 'Employees';
         $employees = Employee::active()->with(['department', 'shift'])->get();
+        $departments = Department::active()->get();
+        $shifts = Shift::active()->get();
 
         return view(
             'master.employee',
-            compact('title', 'employees')
+            compact('title', 'employees', 'departments', 'shifts')
         );
     }
 

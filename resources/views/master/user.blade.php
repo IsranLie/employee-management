@@ -120,19 +120,22 @@
                         for="name"
                         class="block text-gray-700 dark:text-gray-200 mb-1"
                     >
-                        Nama
+                        Employee Name
                     </label>
-                    <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        x-model="formData.name"
+                    <select
+                        name="employee_id"
+                        id="employee_id"
+                        x-model="formData.employee_id"
+                        :disabled="formMode != 'add'"
                         class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-                        placeholder="Your name"
-                    />
-                    <p
-                        class="text-red-500 text-xs italic mt-1 error-message"
-                    ></p>
+                    >
+                        <option value="">-- Select Employee --</option>
+                        @foreach ($employees as $employee)
+                        <option value="{{ $employee->id }}">
+                            {{ $employee->name }}
+                        </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-4">
                     <label
@@ -146,12 +149,10 @@
                         name="username"
                         id="username"
                         x-model="formData.username"
+                        required
                         class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                         placeholder="Your username"
                     />
-                    <p
-                        class="text-red-500 text-xs italic mt-1 error-message"
-                    ></p>
                 </div>
                 <div class="mb-4 relative">
                     <label
@@ -165,6 +166,7 @@
                         name="password"
                         id="password"
                         x-model="formData.password"
+                        :required="formMode === 'add'"
                         class="password-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                         :placeholder="formMode === 'add' ? 'minimum 8 characters' : 'leave blank if not changed'"
                     />
@@ -178,9 +180,6 @@
                             class="w-5 h-5 dark:bg-gray-700 dark:text-white"
                         ></i>
                     </button>
-                    <p
-                        class="text-red-500 text-xs italic mt-1 error-message"
-                    ></p>
                 </div>
 
                 <div class="flex justify-end gap-2">
@@ -307,9 +306,8 @@
             openEditModal: function (user) {
                 this.formMode = "edit";
                 this.formData.id = user.id;
-                this.formData.name = user.name;
-                this.formData.username = user.username;
                 this.formData.employee_id = user.employee_id;
+                this.formData.username = user.username;
                 this.formData.password = "";
                 this.showFormModal = true;
             },
@@ -317,9 +315,8 @@
             resetFormData: function () {
                 this.formData = {
                     id: "",
-                    name: "",
-                    username: "",
                     employee_id: "",
+                    username: "",
                     password: "",
                 };
                 // Clear validation errors displayed client-side

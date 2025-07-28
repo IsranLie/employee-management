@@ -174,16 +174,6 @@
                                     class="ml-9 mt-2 space-y-2 hidden transition-all duration-200"
                                 >
                                     <a
-                                        href="{{ route('product') }}"
-                                        class="block py-2 px-3 rounded-lg text-sm text-blue-600 hover:bg-blue-100 hover:text-blue-600 {{
-                                            $title === 'Produk'
-                                                ? 'bg-blue-50'
-                                                : ''
-                                        }}"
-                                    >
-                                        Produk
-                                    </a>
-                                    <a
                                         href="{{ route('employee') }}"
                                         class="block py-2 px-3 rounded-lg text-sm text-blue-600 hover:bg-blue-100 hover:text-blue-600 {{
                                             $title === 'Employee'

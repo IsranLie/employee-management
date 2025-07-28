@@ -1,6 +1,6 @@
 @extends('app') @section('contents')
 <main
-    x-data="shiftPage()"
+    x-data="employeePage()"
     class="flex-grow p-4 transition-all duration-200 ease-in-out"
 >
     <div
@@ -40,7 +40,7 @@
                 class="inline-flex items-center gap-2 rounded-md bg-green-600 px-2 py-2 text-white shadow-md transition hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
             >
                 <i data-lucide="plus" class="w-5 h-5"></i>
-                Add Shift
+                Add Employee
             </button>
         </div>
 
@@ -108,10 +108,10 @@
         >
             <h2
                 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2"
-                x-text="formMode === 'add' ? 'Add Shift' : 'Update Shift'"
+                x-text="formMode === 'add' ? 'Add Employee' : 'Update Employee'"
             ></h2>
             <hr class="mb-4" />
-            <form x-ref="shiftForm" @submit.prevent="submitForm">
+            <form x-ref="employeeForm" @submit.prevent="submitForm">
                 @csrf
                 <template x-if="formMode === 'edit'">
                     <input type="hidden" name="_method" value="PUT" />
@@ -121,10 +121,27 @@
 
                 <div class="mb-4">
                     <label
+                        for="nik"
+                        class="block text-gray-700 dark:text-gray-200 mb-1"
+                    >
+                        NIK
+                    </label>
+                    <input
+                        type="number"
+                        name="nik"
+                        id="nik"
+                        x-model="formData.nik"
+                        class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+                        placeholder="Input NIK"
+                        required
+                    />
+                </div>
+                <div class="mb-4">
+                    <label
                         for="name"
                         class="block text-gray-700 dark:text-gray-200 mb-1"
                     >
-                        Shift Name
+                        Name
                     </label>
                     <input
                         type="text"
@@ -132,9 +149,53 @@
                         id="name"
                         x-model="formData.name"
                         class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-                        placeholder="Shift name"
+                        placeholder="Input name"
                         required
                     />
+                </div>
+                <div class="mb-4">
+                    <label
+                        for="department_id"
+                        class="block text-gray-700 dark:text-gray-200 mb-1"
+                    >
+                        Department
+                    </label>
+                    <select
+                        name="department_id"
+                        id="department_id"
+                        x-model="formData.department_id"
+                        required
+                        class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+                    >
+                        <option value="">-- Select Department --</option>
+                        @foreach ($departments as $department)
+                        <option value="{{ $department->id }}">
+                            {{ $department->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label
+                        for="shift_id"
+                        class="block text-gray-700 dark:text-gray-200 mb-1"
+                    >
+                        Shift
+                    </label>
+                    <select
+                        name="shift_id"
+                        id="shift_id"
+                        x-model="formData.shift_id"
+                        required
+                        class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+                    >
+                        <option value="">-- Select Shift --</option>
+                        @foreach ($shifts as $shift)
+                        <option value="{{ $shift->id }}">
+                            {{ $shift->name }}
+                        </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button
@@ -188,7 +249,7 @@
                 </button>
                 <button
                     type="button"
-                    @click="deleteShift"
+                    @click="deleteEmployee"
                     class="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
                 >
                     Delete
@@ -229,18 +290,21 @@
 </main>
 
 <script>
-    function shiftPage() {
+    function employeePage() {
         return {
             showFormModal: false,
             formMode: "add", // 'add' or 'edit'
             formData: {
                 id: "",
+                nik: "",
                 name: "",
+                department_id: "",
+                shift_id: "",
             },
 
             // Delete Modal State
             showDelete: false,
-            deletingShiftId: null,
+            deletingEmployeeId: null,
 
             // Alert State
             showAlert: false,
@@ -255,21 +319,27 @@
                 this.showFormModal = true;
             },
 
-            openEditModal: function (shift) {
+            openEditModal: function (employee) {
                 this.formMode = "edit";
-                this.formData.id = shift.id;
-                this.formData.name = shift.name;
+                this.formData.id = employee.id;
+                this.formData.nik = employee.nik;
+                this.formData.name = employee.name;
+                this.formData.department_id = employee.department_id;
+                this.formData.shift_id = employee.shift_id;
                 this.showFormModal = true;
             },
 
             resetFormData: function () {
                 this.formData = {
                     id: "",
+                    nik: "",
                     name: "",
+                    department_id: "",
+                    shift_id: "",
                 };
                 // Clear validation errors displayed client-side
-                if (this.$refs.shiftForm) {
-                    this.$refs.shiftForm
+                if (this.$refs.employeeForm) {
+                    this.$refs.employeeForm
                         .querySelectorAll(".error-message")
                         .forEach((el) => (el.textContent = ""));
                 }
@@ -280,19 +350,19 @@
                 this.resetFormData();
             },
 
-            openDeleteModal: function (shiftId) {
-                this.deletingShiftId = shiftId;
+            openDeleteModal: function (employeeId) {
+                this.deletingEmployeeId = employeeId;
                 this.showDelete = true;
             },
 
             closeDeleteModal: function () {
                 this.showDelete = false;
-                this.deletingShiftId = null;
+                this.deletingEmployeeId = null;
             },
 
             // --- FORM SUBMISSION FUNCTION ---
             submitForm: async function () {
-                const form = this.$refs.shiftForm;
+                const form = this.$refs.employeeForm;
                 const formData = new FormData(form);
 
                 // Bersihkan error sebelumnya
@@ -304,10 +374,10 @@
                 let method = "POST";
 
                 if (this.formMode === "edit") {
-                    url = `/shift/${this.formData.id}`;
+                    url = `/employee/${this.formData.id}`;
                     formData.append("_method", "PUT");
                 } else {
-                    url = "/shift";
+                    url = "/employee";
                 }
 
                 // Ambil token CSRF dari meta tag
@@ -387,8 +457,8 @@
             },
 
             // --- DELETE SUBMISSION FUNCTION ---
-            deleteShift: async function () {
-                if (!this.deletingShiftId) return;
+            deleteEmployee: async function () {
+                if (!this.deletingEmployeeId) return;
 
                 const csrfToken = document
                     .querySelector('meta[name="csrf-token"]')
@@ -396,7 +466,7 @@
 
                 try {
                     const response = await fetch(
-                        `/shift/${this.deletingShiftId}`,
+                        `/employee/${this.deletingEmployeeId}`,
                         {
                             method: "DELETE",
                             headers: {
