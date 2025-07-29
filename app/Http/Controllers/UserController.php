@@ -11,22 +11,22 @@ class UserController extends Controller
 {
     public function index()
     {
-        $title = 'User';
-        $user = User::with('employee')->where('status', 'active')->get();
+        $title = 'Users';
+        $users = User::active()->get();
         $employees = Employee::active()->get();
 
         return view(
             'master.user',
-            compact('title', 'user', 'employees')
+            compact('title', 'users', 'employees')
         );
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'employee_id' => 'required|integer|unique:user',
+            'employee_id' => 'required|integer|unique:users',
             'username' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:5',
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);

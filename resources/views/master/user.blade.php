@@ -47,7 +47,7 @@
         <div
             class="bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 rounded-lg"
         >
-            <table id="datatable" class="display">
+            <table id="datatable" class="display" x-cloak>
                 <thead>
                     <tr>
                         <th class="flex justify-center">No.</th>
@@ -58,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($user as $item)
+                    @foreach ($users as $item)
                     <tr>
                         <td class="flex justify-center">
                             {{ $loop->iteration }}
@@ -117,7 +117,7 @@
 
                 <div class="mb-4">
                     <label
-                        for="name"
+                        for="employee_id"
                         class="block text-gray-700 dark:text-gray-200 mb-1"
                     >
                         Employee Name
@@ -126,6 +126,7 @@
                         name="employee_id"
                         id="employee_id"
                         x-model="formData.employee_id"
+                        required
                         :disabled="formMode != 'add'"
                         class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
                     >
@@ -151,7 +152,7 @@
                         x-model="formData.username"
                         required
                         class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-                        placeholder="Your username"
+                        placeholder="Input username"
                     />
                 </div>
                 <div class="mb-4 relative">
@@ -168,7 +169,7 @@
                         x-model="formData.password"
                         :required="formMode === 'add'"
                         class="password-input w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-400"
-                        :placeholder="formMode === 'add' ? 'minimum 8 characters' : 'leave blank if not changed'"
+                        :placeholder="formMode === 'add' ? 'Minimum 5 characters' : 'Leave blank if not changed'"
                     />
                     <button
                         type="button"
@@ -395,9 +396,7 @@
                         this.closeFormModal();
                         window.location.reload();
                     } else {
-                        let errorMessage =
-                            data.message ||
-                            "Terjadi kesalahan tidak diketahui.";
+                        let errorMessage = data.message || "Terjadi kesalahan.";
 
                         if (response.status === 422 && data.errors) {
                             for (const field in data.errors) {
@@ -435,10 +434,7 @@
                     }
                 } catch (error) {
                     console.error("Error submitting form:", error);
-                    this.show(
-                        "Gagal terhubung ke server. Silakan coba lagi.",
-                        "error"
-                    );
+                    this.show("Gagal terhubung ke server.", "error");
                 }
             },
 

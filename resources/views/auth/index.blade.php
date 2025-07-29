@@ -20,8 +20,19 @@
             <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">
                 Login to E-Staff
             </h2>
+            <!-- Alert -->
+            @if ($errors->any())
+            <div
+                class="mb-4 text-sm text-red-600 bg-red-100 border border-red-300 rounded p-3"
+            >
+                @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+                @endforeach
+            </div>
+            @endif
 
-            <form action="{{ route('home') }}" method="GET">
+            <form action="{{ route('auth') }}" method="POST">
+                @csrf
                 <div class="mb-4">
                     <label
                         for="username"
@@ -31,7 +42,9 @@
                     <input
                         type="username"
                         id="username"
+                        name="username"
                         autofocus
+                        required
                         class="mt-1 w-full rounded-md border border-blue-100 px-3 py-2 shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                 </div>
@@ -45,6 +58,8 @@
                     <input
                         type="password"
                         id="password"
+                        name="password"
+                        required
                         placeholder="•••"
                         class="mt-1 w-full rounded-md border border-blue-100 px-3 py-2 pr-10 shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />

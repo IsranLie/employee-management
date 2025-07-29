@@ -30,6 +30,7 @@
 
     <body>
         <div
+            x-data="logoutComponent()"
             class="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900 dark:text-gray-100 transition-all duration-200 ease-in-out"
         >
             <!-- HEADER -->
@@ -111,7 +112,8 @@
                                 <hr class="my-2" />
                                 <li>
                                     <a
-                                        href="{{ route('auth') }}"
+                                        href="#"
+                                        @click.prevent="showLogout = true"
                                         class="flex items-center gap-2 block px-4 py-2 rounded-lg hover:bg-blue-50 hover:text-red-600 transition-colors duration-200 group"
                                     >
                                         <i
@@ -134,7 +136,7 @@
                     class="hidden md:block bg-white w-64 min-h-screen shadow-lg transition-all duration-200 ease-in-out dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-r border-gray-200 dark:border-gray-700"
                 >
                     <div class="p-4">
-                        <nav class="space-y-2">
+                        <nav class="space-y-2 font-semibold">
                             <a
                                 href="{{ route('home') }}"
                                 class="flex items-center gap-3 py-3 px-4 rounded-lg text-blue-600 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200 group
@@ -152,7 +154,14 @@
                                 <button
                                     id="dropdownMasterBtn"
                                     type="button"
-                                    class="flex items-center text-blue-600 w-full justify-between gap-3 py-3 px-4 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200 group"
+                                    class="flex items-center text-blue-600 w-full justify-between gap-3 py-3 px-4 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200 group {{
+                                        $title === 'Employees' ||
+                                        $title === 'Departments' ||
+                                        $title === 'Shifts' ||
+                                        $title === 'Users'
+                                            ? 'bg-blue-50'
+                                            : ''
+                                    }}"
                                 >
                                     <div class="flex items-center gap-3">
                                         <i
@@ -171,12 +180,19 @@
                                 </button>
                                 <div
                                     id="dropdownMasterContent"
-                                    class="ml-9 mt-2 space-y-2 hidden transition-all duration-200"
+                                    class="ml-9 mt-2 space-y-2 transition-all duration-200 {{
+                                        $title === 'Employees' ||
+                                        $title === 'Departments' ||
+                                        $title === 'Shifts' ||
+                                        $title === 'Users'
+                                            ? ''
+                                            : 'hidden'
+                                    }}"
                                 >
                                     <a
                                         href="{{ route('employee') }}"
                                         class="block py-2 px-3 rounded-lg text-sm text-blue-600 hover:bg-blue-100 hover:text-blue-600 {{
-                                            $title === 'Employee'
+                                            $title === 'Employees'
                                                 ? 'bg-blue-50'
                                                 : ''
                                         }}"
@@ -186,7 +202,7 @@
                                     <a
                                         href="{{ route('department') }}"
                                         class="block py-2 px-3 rounded-lg text-sm text-blue-600 hover:bg-blue-100 hover:text-blue-600  {{
-                                            $title === 'Department'
+                                            $title === 'Departments'
                                                 ? 'bg-blue-50'
                                                 : ''
                                         }}"
@@ -196,7 +212,7 @@
                                     <a
                                         href="{{ route('shift') }}"
                                         class="block py-2 px-3 rounded-lg text-sm text-blue-600 hover:bg-blue-100 hover:text-blue-600 {{
-                                            $title === 'Shift'
+                                            $title === 'Shifts'
                                                 ? 'bg-blue-50'
                                                 : ''
                                         }}"
@@ -206,7 +222,7 @@
                                     <a
                                         href="{{ route('user') }}"
                                         class="block py-2 px-3 rounded-lg text-sm text-blue-600 hover:bg-blue-100 hover:text-blue-600 {{
-                                            $title === 'User'
+                                            $title === 'Users'
                                                 ? 'bg-blue-50'
                                                 : ''
                                         }}"
@@ -215,11 +231,6 @@
                                     </a>
                                 </div>
                             </div>
-
-                            <!-- <a href="{{ route('user') }}" class="flex items-center gap-3 py-3 px-4 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200 group">
-                            <i data-lucide="users" class="w-5 h-5 group-hover:text-blue-600"></i>
-                            <span class="sidebar-text">Users</span>
-                        </a> -->
                         </nav>
                     </div>
                 </aside>
@@ -233,6 +244,53 @@
                     >
                         © 2025 E-Staff - All right reserved.
                     </footer>
+                </div>
+            </div>
+
+            <!-- Modal Logout -->
+            <div
+                x-show="showLogout"
+                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                x-cloak
+            >
+                <div
+                    class="w-full max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg"
+                    @click.away="closeLogoutModal()"
+                    @keydown.escape.window="closeLogoutModal()"
+                >
+                    <h2
+                        class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2"
+                    >
+                        Confirm Logout
+                    </h2>
+                    <hr class="mb-4" />
+                    <p class="text-gray-700 dark:text-gray-300 mb-6">
+                        Are you sure you want to logout?
+                    </p>
+                    <div class="flex justify-end gap-2">
+                        <button
+                            type="button"
+                            @click="closeLogoutModal()"
+                            class="px-4 py-2 rounded-md bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-800 dark:text-white"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="button"
+                            @click="logoutUser"
+                            class="px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                    <form
+                        id="logoutForm"
+                        action="{{ route('logout') }}"
+                        method="POST"
+                        class="hidden"
+                    >
+                        @csrf
+                    </form>
                 </div>
             </div>
         </div>
@@ -423,6 +481,19 @@
                     scrollX: true,
                 });
             });
+
+            // Logout
+            function logoutComponent() {
+                return {
+                    showLogout: false,
+                    closeLogoutModal() {
+                        this.showLogout = false;
+                    },
+                    logoutUser() {
+                        document.getElementById("logoutForm").submit();
+                    },
+                };
+            }
         </script>
     </body>
 </html>

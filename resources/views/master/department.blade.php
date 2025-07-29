@@ -47,7 +47,7 @@
         <div
             class="bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-800 dark:text-gray-200 p-4 rounded-lg"
         >
-            <table id="datatable" class="display">
+            <table id="datatable" class="display" x-cloak>
                 <thead>
                     <tr>
                         <th class="flex justify-center">No.</th>

@@ -5,7 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShiftController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
 
@@ -20,11 +19,11 @@ use App\Http\Controllers\DepartmentController;
 |
 */
 
-Route::get('/', [AuthController::class, 'index'])->name('auth');
+Route::get('/', [AuthController::class, 'index']);
+Route::post('/auth', [AuthController::class, 'auth'])->name('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-Route::get('/product', [ProductController::class, 'index'])->name('product');
 
 Route::get('/employee', [EmployeeController::class, 'index'])->name('employee');
 Route::post('/employee', [EmployeeController::class, 'store'])->name('employee.store');

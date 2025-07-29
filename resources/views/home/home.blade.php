@@ -8,15 +8,15 @@
             Home
         </h2>
         <p class="text-gray-600 mb-6 dark:text-gray-300">
-            This is your main content area. The sidebar can be toggled using the
-            menu button.
+            These statistics provide a quick overview of the running data and
+            assist with operational monitoring.
         </p>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
             <div class="bg-blue-500 text-white p-4 rounded-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-blue-100">Total Users</p>
-                        <p class="text-2xl font-bold">1,234</p>
+                        <p class="text-blue-100">Employee</p>
+                        <p class="text-2xl font-bold">{{ $employees }}</p>
                     </div>
                     <i data-lucide="users" class="w-8 h-8 text-blue-200"></i>
                 </div>
@@ -24,11 +24,11 @@
             <div class="bg-green-500 text-white p-4 rounded-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-green-100">Revenue</p>
-                        <p class="text-2xl font-bold">$12,345</p>
+                        <p class="text-green-100">Department</p>
+                        <p class="text-2xl font-bold">{{ $departments }}</p>
                     </div>
                     <i
-                        data-lucide="dollar-sign"
+                        data-lucide="landmark"
                         class="w-8 h-8 text-green-200"
                     ></i>
                 </div>
@@ -36,11 +36,11 @@
             <div class="bg-yellow-500 text-white p-4 rounded-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-yellow-100">Orders</p>
-                        <p class="text-2xl font-bold">567</p>
+                        <p class="text-yellow-100">Shift</p>
+                        <p class="text-2xl font-bold">{{ $shifts }}</p>
                     </div>
                     <i
-                        data-lucide="shopping-cart"
+                        data-lucide="clock-3"
                         class="w-8 h-8 text-yellow-200"
                     ></i>
                 </div>
@@ -48,10 +48,13 @@
             <div class="bg-purple-500 text-white p-4 rounded-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-purple-100">Messages</p>
-                        <p class="text-2xl font-bold">89</p>
+                        <p class="text-purple-100">User</p>
+                        <p class="text-2xl font-bold">{{ $users }}</p>
                     </div>
-                    <i data-lucide="mail" class="w-8 h-8 text-purple-200"></i>
+                    <i
+                        data-lucide="user-round-cog"
+                        class="w-8 h-8 text-purple-200"
+                    ></i>
                 </div>
             </div>
         </div>

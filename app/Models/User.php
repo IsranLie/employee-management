@@ -27,6 +27,17 @@ class User extends Authenticatable
         return $this->belongsTo(Employee::class, 'employee_id');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function softDelete()
+    {
+        $this->status = 'inactive';
+        return $this->save();
+    }
+
     protected static function booted()
     {
         static::creating(function ($user) {
