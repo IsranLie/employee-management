@@ -73,7 +73,7 @@ password: ahmad
 
 -   [Laravel v10.x](https://laravel.com/): free and open-source PHP-based web framework for building web applications.
 -   [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript): often abbreviated as JS, is a programming language and core technology of the World Wide Web, alongside HTML and CSS.
--   [Tailwind CSS v3.x](https://tailwindcss.com/): a utility-first CSS framework that provides a set of predefined CSS classes.
+-   [Tailwind CSS](https://tailwindcss.com/): a utility-first CSS framework that provides a set of predefined CSS classes.
 -   [Lucide Icons](https://lucide.dev/): open-source neutral-style system symbols elaborately crafted for designers and developers.
 -   [AlpineJs](https://alpinejs.dev/): a lightweight JavaScript framework designed to add interactivity directly to HTML.
 -   [Datatables](https://datatables.net/): jQuery plugin used to display data in interactive table form on web pages.
@@ -90,7 +90,9 @@ This project designed with the latest web browsers in mind. Recommended that you
 ### Screen Capture
 
 ##### Desktop View:
+<img width="1756" height="697" alt="k" src="https://github.com/user-attachments/assets/31ab3404-5fa0-4403-93fc-4048625dddbe" />
 
 ##### Mobile View:
+<img width="297" height="593" alt="image" src="https://github.com/user-attachments/assets/86b88587-9239-4a04-9d14-944d127ca888" />
 
 ##### Demo Video:
