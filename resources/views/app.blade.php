@@ -4,7 +4,11 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="{{ asset('img/logo.png') }}"
+        />
         <title>{{ $title }} | E-Staff</title>
 
         <script src="https://cdn.tailwindcss.com"></script>
