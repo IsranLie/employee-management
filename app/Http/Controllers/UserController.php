@@ -50,15 +50,16 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-            'password' => 'nullable|string|min:8',
+            'password' => 'nullable|string|min:5',
         ]);
 
         try {
-            if (isset($validatedData['password'])) {
+            if (!empty($validatedData['password'])) {
                 $validatedData['password'] = Hash::make($validatedData['password']);
             } else {
                 unset($validatedData['password']);
             }
+
 
             $user->update($validatedData);
             return response()->json([
