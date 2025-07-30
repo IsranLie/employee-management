@@ -96,3 +96,5 @@ This project designed with the latest web browsers in mind. Recommended that you
 <img width="297" height="593" alt="image" src="https://github.com/user-attachments/assets/86b88587-9239-4a04-9d14-944d127ca888" />
 
 ##### Demo Video:
+https://github.com/user-attachments/assets/6a323d2f-7871-46b6-821e-cdc4c82e8f01
+
