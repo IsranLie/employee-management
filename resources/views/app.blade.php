@@ -34,7 +34,7 @@
 
     <body>
         <div
-            x-data="logoutComponent()"
+            x-data="modalComponent()"
             class="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900 dark:text-gray-100 transition-all duration-200 ease-in-out"
         >
             <!-- HEADER -->
@@ -85,8 +85,9 @@
                             ></i>
                             <span
                                 class="text-sm text-gray-600 dark:text-gray-200"
-                                >Admin</span
                             >
+                                {{ session("session_username") }}
+                            </span>
                             <i
                                 id="user-toggle-arrow"
                                 data-lucide="chevron-down"
@@ -104,6 +105,7 @@
                                 <li>
                                     <a
                                         href="#"
+                                        @click.prevent="showProfile = true"
                                         class="flex items-center gap-2 block px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200 group"
                                     >
                                         <i
@@ -251,6 +253,59 @@
                 </div>
             </div>
 
+            <!-- Modal Profile -->
+            <div
+                x-show="showProfile"
+                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                x-cloak
+            >
+                <div
+                    class="w-full max-w-md bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg"
+                    @click.away="closeProfileModal()"
+                    @keydown.escape.window="closeProfileModal()"
+                >
+                    <div class="flex justify-between gap-2 mb-2">
+                        <h2
+                            class="text-xl font-semibold text-gray-800 dark:text-gray-100"
+                        >
+                            Profile
+                        </h2>
+                        <button
+                            type="button"
+                            @click="closeProfileModal()"
+                            class="px-2 rounded-md text-gray-800 dark:text-white"
+                        >
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                    <hr
+                        class="mb-4 border-t-2 border-gray-200 dark:border-gray-600"
+                    />
+                    <div class="text-center text-gray-700 dark:text-gray-300">
+                        <div class="flex justify-center mb-2">
+                            <i
+                                data-lucide="user-round-cog"
+                                class="w-10 h-10"
+                            ></i>
+                        </div>
+                        <p>
+                            {{ session("session_name") }} ({{
+                                session("session_username")
+                            }})
+                        </p>
+                        <p class="text-sm mb-2">
+                            {{ session("session_department") }} ({{
+                                session("session_shift")
+                            }})
+                        </p>
+                        <p class="text-xs mb-6 italic">
+                            Created at:
+                            {{ formatDatetime(session("session_created")) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Modal Logout -->
             <div
                 x-show="showLogout"
@@ -267,7 +322,9 @@
                     >
                         Confirm Logout
                     </h2>
-                    <hr class="mb-4" />
+                    <hr
+                        class="mb-4 border-t-2 border-gray-200 dark:border-gray-600"
+                    />
                     <p class="text-gray-700 dark:text-gray-300 mb-6">
                         Are you sure you want to logout?
                     </p>
@@ -486,6 +543,16 @@
                 });
             });
 
+            // Profile
+            function profileComponent() {
+                return {
+                    showProfile: false,
+                    closeProfileModal() {
+                        this.showProfile = false;
+                    },
+                };
+            }
+
             // Logout
             function logoutComponent() {
                 return {
@@ -496,6 +563,13 @@
                     logoutUser() {
                         document.getElementById("logoutForm").submit();
                     },
+                };
+            }
+
+            function modalComponent() {
+                return {
+                    ...profileComponent(),
+                    ...logoutComponent(),
                 };
             }
         </script>

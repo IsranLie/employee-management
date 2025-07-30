@@ -110,7 +110,7 @@
                 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2"
                 x-text="formMode === 'add' ? 'Add Employee' : 'Update Employee'"
             ></h2>
-            <hr class="mb-4" />
+            <hr class="mb-4 border-t-2 border-gray-200 dark:border-gray-600" />
             <form x-ref="employeeForm" @submit.prevent="submitForm">
                 @csrf
                 <template x-if="formMode === 'edit'">
@@ -234,7 +234,7 @@
             >
                 Confirm Delete
             </h2>
-            <hr class="mb-4" />
+            <hr class="mb-4 border-t-2 border-gray-200 dark:border-gray-600" />
             <p class="text-gray-700 dark:text-gray-300 mb-6">
                 Are you sure you want to delete this data? This action cannot be
                 undone.
