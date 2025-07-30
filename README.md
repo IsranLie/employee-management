@@ -16,8 +16,9 @@ Simple employee management website using laravel
 
 #### Menus
 
--   Login
+-   Login/Logout
 -   Home
+-   Profile
 -   Employee
 -   Department
 -   Shift
@@ -38,6 +39,7 @@ Install composer depedencies:
 composer install
 ```
 
+Setting your database connection on .env
 Copy .env file:
 
 ```
