@@ -76,10 +76,11 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(User $user)
+    public function destroy($id)
     {
         try {
-            $user->delete();
+            $employee = User::findOrFail($id);
+            $employee->softDelete();
             return response()->json([
                 'success' => true,
                 'message' => 'Data Pengguna berhasil dihapus!'
